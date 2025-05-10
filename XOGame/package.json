@@ -5,7 +5,7 @@
   "license": "ISC",
   "author": "Soy Chanratana",
   "type": "commonjs",
-  "main": "Game.html",
+  "main": "index.js",
   "types": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
