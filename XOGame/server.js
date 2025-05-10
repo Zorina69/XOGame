@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, req.url === '/' ? 'HTML/Homepage.html' : req.url);
+    let filePath = path.join(__dirname, req.url === '/' ? 'HTML/Game.html' : req.url);
     const extname = path.extname(filePath);
     let contentType = 'text/html';
 
