@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XO Game</title>
+    <style>
+        body {
+            background-image: url(../Picture/a69e89a897c79159463c0a7015119039.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color:black;
+            font-size: large;
+            h1{
+                color:blanchedalmond;
+            }
+        }
+        .game-container {
+            text-align: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px auto;
+            width: 320px;
+            height: 320px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            border: 4px solid purple;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            cursor: pointer;
+        }
+        .cell.disabled {
+            pointer-events: none;
+        }
+        .reset-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .reset-btn:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color:khaki;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <h1>XO Game</h1>
+    <div class="board" id="board"></div>
+    <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    let currentPlayer = 'X';
+    let gameBoard = ['', '', '', '', '', '', '', '', ''];
+    let gameActive = true;
+
+    const boardElement = document.getElementById('board');
+    const messageElement = document.getElementById('message');
+
+    function createBoard() {
+        boardElement.innerHTML = '';
+        gameBoard.forEach((cell, index) => {
+            const cellElement = document.createElement('div');
+            cellElement.classList.add('cell');
+            cellElement.textContent = cell;
+            cellElement.addEventListener('click', () => handleClick(index));
+            boardElement.appendChild(cellElement);
+        });
+    }
+
+    function handleClick(index) {
+        if (gameBoard[index] !== '' || !gameActive) return;
+
+        gameBoard[index] = currentPlayer;
+        createBoard();
+        checkWinner();
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+
+    function checkWinner() {
+        const winningPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
+        ];
+
+        for (const pattern of winningPatterns) {
+            const [a, b, c] = pattern;
+            if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+                gameActive = false;
+                messageElement.textContent = `${currentPlayer} wins!`;
+                highlightWinner(pattern);
+                return;
+            }
+        }
+
+        if (!gameBoard.includes('')) {
+            gameActive = false;
+            messageElement.textContent = 'It\'s a draw!';
+        }
+    }
+
+    function highlightWinner(pattern) {
+        pattern.forEach(index => {
+            const cell = boardElement.children[index];
+            cell.style.backgroundColor = '#90EE90'; // Highlight winning cells
+        });
+    }
+
+    function resetGame() {
+        currentPlayer = 'X';
+        gameBoard = ['', '', '', '', '', '', '', '', ''];
+        gameActive = true;
+        messageElement.textContent = '';
+        createBoard();
+    }
+
+    createBoard();
+</script>
+
+</body>
+</html>

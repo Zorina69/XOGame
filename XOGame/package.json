@@ -1,0 +1,13 @@
+{
+  "name": "xogame",
+  "version": "1.0.0",
+  "description": "It is created to play with friend",
+  "license": "ISC",
+  "author": "Soy Chanratana",
+  "type": "commonjs",
+  "main": "index.js",
+  "types": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
